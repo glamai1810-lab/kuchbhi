@@ -1,24 +1,21 @@
--- Creates the table to store customer data
-CREATE TABLE customers (
-    customerID VARCHAR(50) PRIMARY KEY,
-    gender VARCHAR(10),
-    SeniorCitizen INT,
-    Partner VARCHAR(5),
-    Dependents VARCHAR(5),
-    tenure INT,
-    PhoneService VARCHAR(5),
-    MultipleLines VARCHAR(20),
-    InternetService VARCHAR(20),
-    OnlineSecurity VARCHAR(20),
-    OnlineBackup VARCHAR(20),
-    DeviceProtection VARCHAR(20),
-    TechSupport VARCHAR(20),
-    StreamingTV VARCHAR(20),
-    StreamingMovies VARCHAR(20),
-    Contract VARCHAR(20),
-    PaperlessBilling VARCHAR(5),
-    PaymentMethod VARCHAR(50),
-    MonthlyCharges DECIMAL(10, 2),
-    TotalCharges DECIMAL(10, 2),
-    Churn VARCHAR(5)
-);
+-- 1. Get Overall Churn Rate
+SELECT 
+    COUNT(*) as TotalCustomers,
+    SUM(CASE WHEN Churn = 'Yes' THEN 1 ELSE 0 END) as ChurnedCustomers,
+    (SUM(CASE WHEN Churn = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*)) as ChurnPercentage
+FROM customers;
+
+-- 2. Analyze Churn by Contract Type
+SELECT 
+    Contract, 
+    COUNT(*) as CustomerCount,
+    SUM(CASE WHEN Churn = 'Yes' THEN 1 ELSE 0 END) as Churned
+FROM customers
+GROUP BY Contract
+ORDER BY Churned DESC;
+
+-- 3. Identify High-Risk Customers (Month-to-month, high charges, tenure < 6)
+SELECT customerID, MonthlyCharges, tenure
+FROM customers
+WHERE Churn = 'Yes' AND Contract = 'Month-to-month' AND tenure < 6
+ORDER BY MonthlyCharges DESC;
