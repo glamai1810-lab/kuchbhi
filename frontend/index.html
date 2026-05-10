@@ -1,1 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Churn Predictor AI</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📉 Customer Churn Predictor</h1>
+        <form id="churnForm">
+            <div class="form-group">
+                <label>Tenure (Months)</label>
+                <input type="number" id="tenure" required value="12">
+            </div>
+            
+            <div class="form-group">
+                <label>Monthly Charges ($)</label>
+                <input type="number" step="0.01" id="MonthlyCharges" required value="75.50">
+            </div>
 
+            <div class="form-group">
+                <label>Total Charges ($)</label>
+                <input type="number" step="0.01" id="TotalCharges" required value="900.00">
+            </div>
+
+            <div class="form-group">
+                <label>Contract Type</label>
+                <select id="Contract">
+                    <option value="Month-to-month">Month-to-month</option>
+                    <option value="One year">One year</option>
+                    <option value="Two year">Two year</option>
+                </select>
+            </div>
+
+            <button type="submit">Analyze Risk</button>
+        </form>
+
+        <div id="resultCard" class="hidden">
+            <h2 id="riskLevel"></h2>
+            <p>Churn Probability: <span id="probValue"></span>%</p>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
